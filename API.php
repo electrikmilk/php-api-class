@@ -7,9 +7,9 @@ class API
     private $curl;
     private $headers = array();
     private $error;
-    public Boolean $json = true;
-    public $http_code;
-    public $this->output;
+    public boolean $json = true;
+    public int $http_code;
+    private $this->output;
     public function __construct($api_key, $base_url = null, $send_json = true)
     {
         if (isset($base_url)) {
@@ -61,6 +61,10 @@ class API
     public function error()
     {
         return json_decode($this->error, true);
+    }
+    public function response()
+    {
+        return json_decode($this->output, true);
     }
     private function request($url, $fields, $method = null)
     {
