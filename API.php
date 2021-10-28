@@ -75,7 +75,7 @@ class API
     }
     public function response($json_output = true)
     {
-        if ($this->output) {
+        if (isset($this->output)) {
             if ($json_output === true) {
                 return json_decode($this->output, true);
             } else {
@@ -87,7 +87,7 @@ class API
     }
     public function error($json_output = true)
     {
-        if ($this->error) {
+        if (isset($this->error)) {
             if ($json_output === true) {
                 return json_decode($this->error, true);
             } else {
