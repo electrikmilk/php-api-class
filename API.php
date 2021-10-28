@@ -99,7 +99,7 @@ class API
         } else {
             $fields = http_build_query($fields);
         }
-        if (isset($fields)) {
+        if (isset($fields) && $method !== "GET") {
             curl_setopt($this->curl, CURLOPT_POSTFIELDS, $fields);
         }
         // finish
