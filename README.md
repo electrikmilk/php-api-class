@@ -29,7 +29,6 @@ $data = $service->post('endpoint',array(
 // if no response, returns http code.
 
 // starts a new request, any methods or variables after this will be based on this request
-// the advantage of this is we can make many requests to one service without needing to start a new instance ourselves
 $data = $service->delete("endpoint/{$id}");
 
 if($service->http_code === 200) {
