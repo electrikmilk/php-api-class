@@ -2,24 +2,28 @@
 
 class API
 {
-    private static $key;
-    private static $base;
+    private $key;
+    private $base;
     private $curl;
     private $headers = array();
     private $error;
-    public boolean $json = true;
+    public bool $json;
     public int $http_code;
-    private $this->output;
+    private $output;
     public function __construct($api_key, $base_url = null, $send_json = true)
     {
         if (isset($base_url)) {
-            self::$base = $base_url;
+            $this->base = $base_url;
         }
         if (isset($api_key)) {
-            self::$key = $api_key;
+            $this->key = $api_key;
             $this->header('Authorization', $this->key);
         }
-        $this->json = $send_json;
+        if ($send_json === true) {
+            $this->json = true;
+        } else {
+            $this->json = false;
+        }
         if ($this->json !== false) {
             $this->header('Content-Type', 'application/json');
         }
@@ -30,13 +34,13 @@ class API
         if (is_resource($this->curl) || $this->curl instanceof \CurlHandle) {
             curl_close($this->curl);
         }
-        $this->curl = null;
         $this->base = null;
         $this->key = null;
-        $this->headers = null;
+        $this->curl = null;
+        $this->headers = array();
         $this->error = null;
-        $this->json = null;
-        $this->http_code = null;
+        $this->json = true;
+        $this->http_code = 0;
         $this->output = null;
     }
     private function init()
@@ -47,7 +51,6 @@ class API
             $this->curl = curl_init();
         }
         curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
-        $this->opt("httpheader",$this->headers);
     }
     public function header($key, $value)
     {
@@ -55,16 +58,18 @@ class API
     }
     public function opt($key, $value)
     {
-        if($key === "RETURNTRANSFER")return;
-        curl_setopt($this->curl, CURLOPT_.strtoupper($key), $value);
-    }
-    public function error()
-    {
-        return json_decode($this->error, true);
+        if ($key === CURLOPT_RETURNTRANSFER) {
+            return false;
+        }
+        curl_setopt($this->curl, $key, $value);
     }
     public function response()
     {
         return json_decode($this->output, true);
+    }
+    public function error()
+    {
+        return json_decode($this->error, true);
     }
     private function request($url, $fields, $method = null)
     {
@@ -73,7 +78,9 @@ class API
             $this->init();
         }
         // set URL
-        curl_setopt($this->curl, CURLOPT_URL, "{$this->base}$url");
+        $this->opt(CURLOPT_URL, $this->base.$url);
+        // set headers
+        $this->opt(CURLOPT_HTTPHEADER, $this->headers);
         // method
         if (isset($method)) {
             if ($method === "GET") {
@@ -96,23 +103,23 @@ class API
             curl_setopt($this->curl, CURLOPT_POSTFIELDS, $fields);
         }
         // finish
-        $this->output = curl_exec($this->curl)
+        $this->output = curl_exec($this->curl);
         $this->http_code = curl_getinfo($this->curl, CURLINFO_HTTP_CODE);
         http_response_code($this->http_code);
         if (curl_error($this->curl)) {
             $this->error = curl_error($this->curl);
             return false;
         } else {
-          if (isset($this->output)) {
-              if ($this->http_code === 200) {
-                  return $this->output;
-              } else {
-                $this->error = $this->output;
-                return false;
-              }
-          } else {
-              return $this->http_code;
-          }
+            if (isset($this->output)) {
+                if ($this->http_code === 200) {
+                    return $this->output;
+                } else {
+                    $this->error = $this->output;
+                    return false;
+                }
+            } else {
+                return $this->http_code;
+            }
         }
         curl_close($this->curl);
         $this->curl = null;
