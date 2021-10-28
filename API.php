@@ -65,11 +65,19 @@ class API
     }
     public function response()
     {
-        return json_decode($this->output, true);
+        if ($this->json === true) {
+            return json_decode($this->output, true);
+        } else {
+            return $this->output;
+        }
     }
     public function error()
     {
-        return json_decode($this->error, true);
+        if ($this->json === true) {
+            return json_decode($this->error, true);
+        } else {
+            return $this->error;
+        }
     }
     private function request($endpoint, $fields, $method = null)
     {
