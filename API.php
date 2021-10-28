@@ -12,12 +12,12 @@ class API
     private $output;
     public function __construct($api_key = null, $base_url = null, $send_json = true)
     {
-        if (isset($base_url)) {
-            $this->base = $base_url;
-        }
         if (isset($api_key)) {
             $this->key = $api_key;
             $this->header('Authorization', $this->key);
+        }
+        if (isset($base_url)) {
+            $this->base = $base_url;
         }
         if ($send_json === true) {
             $this->json = true;
@@ -34,8 +34,8 @@ class API
         if (is_resource($this->curl) || $this->curl instanceof \CurlHandle) {
             curl_close($this->curl);
         }
-        $this->base = null;
         $this->key = null;
+        $this->base = null;
         $this->curl = null;
         $this->headers = array();
         $this->error = null;
