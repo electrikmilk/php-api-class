@@ -1,2 +1,2 @@
 # php-api-class
-My custom API class, some parts borrowed from php-curl-class
+My custom API class, some parts borrowed from [php-curl-class](https://github.com/php-curl-class/php-curl-class)
