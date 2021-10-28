@@ -18,7 +18,7 @@ $service->json = true || false; // send data with json_encode() or http_build_qu
 
 ## Requests
 
-Use `get()`, `post()`, `patch()`, or `delete()` method. All of them can be given a fields array. Each of them starts a new cURL instance, meaning the previous one is discarded.
+Use `get()`, `post()`, `patch()`, or `delete()` method. All of them can be given a fields array. Each of them starts a new request, meaning the previous one is discarded.
 
 ```php
 $data = $service->post('endpoint',array(
@@ -28,7 +28,8 @@ $data = $service->post('endpoint',array(
 // if response and http error code, returns false, response is put in the $service->error() method.
 // if no response, returns http code.
 
-// starts a new curl instance, any methods or variables after this will be based on this request
+// starts a new request, any methods or variables after this will be based on this request
+// the advantage of this is we can make many requests to one service without needing to start a new instance ourselves
 $data = $service->delete("endpoint/{$id}");
 
 if($service->http_code === 200) {
