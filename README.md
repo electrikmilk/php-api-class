@@ -21,7 +21,7 @@ $service->json = true || false; // send data with json_encode() or http_build_qu
 Use `get()`, `post()`, `patch()`, or `delete()` methods. All of them can be given a fields array. Each of them starts a new cURL instance, meaning the previous one is discarded.
 
 ```php
-$get_data = $service->post('endpoint',array(
+$data = $service->post('endpoint',array(
   "key"=>"value"
 ));
 // if response and http success code (200), returns response.
