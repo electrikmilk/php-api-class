@@ -6,9 +6,10 @@ class API
     private $base;
     private $key;
     private $headers = array();
-    private $error = null;
+    private $error;
     private $json = true;
     private $http_code;
+    private $this->output;
     public function __construct($api_key, $base_url = null, $send_json = true)
     {
         if (isset($base_url)) {
@@ -36,6 +37,7 @@ class API
         $this->error = null;
         $this->json = null;
         $this->http_code = null;
+        $this->output = null;
     }
     private function init()
     {
@@ -81,7 +83,7 @@ class API
             curl_setopt($this->curl, CURLOPT_POSTFIELDS, $fields);
         }
         // finish
-        $output = curl_exec($this->curl);
+        $this->output = curl_exec($this->curl)
         $this->http_code = curl_getinfo($this->curl, CURLINFO_HTTP_CODE);
         http_response_code($this->http_code);
         if (curl_error($this->curl)) {
@@ -89,9 +91,9 @@ class API
             return false;
         } else {
             if ($this->http_code === 200) {
-                return $output;
-            } elseif (isset($output)) {
-                $this->error = $output;
+                return $this->output;
+            } elseif (isset($this->output)) {
+                $this->error = $this->output;
                 return false;
             } else {
                 return $this->http_code;
