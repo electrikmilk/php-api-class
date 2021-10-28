@@ -10,7 +10,7 @@ class API
     public bool $json;
     public int $http_code;
     private $output;
-    public function __construct($api_key, $base_url = null, $send_json = true)
+    public function __construct($api_key = null, $base_url = null, $send_json = true)
     {
         if (isset($base_url)) {
             $this->base = $base_url;
