@@ -63,17 +63,17 @@ class API
         }
         curl_setopt($this->curl, $key, $value);
     }
-    public function response()
+    public function response($json_output = true)
     {
-        if ($this->json === true) {
+        if ($json_output === true) {
             return json_decode($this->output, true);
         } else {
             return $this->output;
         }
     }
-    public function error()
+    public function error($json_output = true)
     {
-        if ($this->json === true) {
+        if ($json_output === true) {
             return json_decode($this->error, true);
         } else {
             return $this->error;
