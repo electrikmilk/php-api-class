@@ -12,7 +12,7 @@ $service->get('endpoint');
 
 ```php
 $service->header('key','value'); // set header
-$service->opt('key','value'); // set option
+$service->opt(CURLOPT_SOMETHING,'value'); // set option
 $service->json = true || false; // send data with json_encode() or http_build_query()
 ```
 
