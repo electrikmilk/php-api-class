@@ -38,10 +38,10 @@ class API
         $this->base = null;
         $this->curl = null;
         $this->headers = array();
-        $this->error = null;
         $this->json = true;
         $this->http_code = 0;
         $this->output = null;
+        $this->error = null;
     }
     private function init()
     {
@@ -50,6 +50,9 @@ class API
         } else {
             $this->curl = curl_init();
         }
+        $this->http_code = 0;
+        $this->output = null;
+        $this->error = null;
         curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
     }
     public function header($key, $value)
@@ -63,20 +66,35 @@ class API
         }
         curl_setopt($this->curl, $key, $value);
     }
+    public function reset()
+    {
+        curl_reset($this->curl);
+        $this->http_code = 0;
+        $this->output = null;
+        $this->error = null;
+    }
     public function response($json_output = true)
     {
-        if ($json_output === true) {
-            return json_decode($this->output, true);
+        if ($this->output) {
+            if ($json_output === true) {
+                return json_decode($this->output, true);
+            } else {
+                return $this->output;
+            }
         } else {
-            return $this->output;
+            return false;
         }
     }
     public function error($json_output = true)
     {
-        if ($json_output === true) {
-            return json_decode($this->error, true);
+        if ($this->error) {
+            if ($json_output === true) {
+                return json_decode($this->error, true);
+            } else {
+                return $this->error;
+            }
         } else {
-            return $this->error;
+            return false;
         }
     }
     private function request($endpoint, $fields, $method = null)
