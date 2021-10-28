@@ -71,14 +71,14 @@ class API
     {
         return json_decode($this->error, true);
     }
-    private function request($url, $fields, $method = null)
+    private function request($endpoint, $fields, $method = null)
     {
         if (!$this->curl) {
             // new request for the same API
             $this->init();
         }
         // set URL
-        $this->opt(CURLOPT_URL, $this->base.$url);
+        $this->opt(CURLOPT_URL, $this->base.$endpoint);
         // set headers
         $this->opt(CURLOPT_HTTPHEADER, $this->headers);
         // method
@@ -124,30 +124,30 @@ class API
         curl_close($this->curl);
         $this->curl = null;
     }
-    public function get($url = null, $fields = array())
+    public function get($endpoint = null, $fields = array())
     {
         if (count($fields)) {
             $query_string = '';
-            $query_mark = strpos($url, '?') > 0 ? '&' : '?';
+            $query_mark = strpos($endpoint, '?') > 0 ? '&' : '?';
             $query_string .= $query_mark . http_build_query($fields, '', '&');
-            $url = $url . $query_string;
+            $endpoint = $endpoint . $query_string;
         }
-        return $this->request($url, false, "GET");
+        return $this->request($endpoint, false, "GET");
     }
-    public function post($url = null, $fields = array())
+    public function post($endpoint = null, $fields = array())
     {
-        return $this->request($url, $fields, "POST");
+        return $this->request($endpoint, $fields, "POST");
     }
-    public function put($url = null, $fields = array())
+    public function put($endpoint = null, $fields = array())
     {
-        return $this->request($url, $fields, "PUT");
+        return $this->request($endpoint, $fields, "PUT");
     }
-    public function patch($url = null, $fields = array())
+    public function patch($endpoint = null, $fields = array())
     {
-        return $this->request($url, $fields, "PATCH");
+        return $this->request($endpoint, $fields, "PATCH");
     }
-    public function delete($url = null, $fields = array())
+    public function delete($endpoint = null, $fields = array())
     {
-        return $this->request($url, $fields, "DELETE");
+        return $this->request($endpoint, $fields, "DELETE");
     }
 }
