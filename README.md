@@ -25,7 +25,7 @@ $data = $service->post('endpoint',array(
   "key"=>"value"
 ));
 // if response and http success code (200), returns response.
-// if response and http error code, returns null, response is put in the $service->error() method.
+// if response and http error code, returns null, response is accessed via the error() method.
 // if no response, returns http code.
 
 // starts a new request, any methods or variables after this will be based on this request
