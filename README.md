@@ -28,8 +28,10 @@ $data = $service->post('endpoint',array(
 // if response and http error code, returns false, response is put in the $service->error() method.
 // if no response, returns http code.
 
+// starts a new curl instance, any methods or variables after this will be based on this request
+$data = $service->delete("endpoint/{$id}");
+
 if($service->http_code === 200) {
-  // do something...
   echo "Response: ({$service->http_code}): {$service->response()}";
 } else {
   echo $service->error();
