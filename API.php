@@ -6,10 +6,10 @@ class API
     private $base;
     private $curl;
     private $headers = array();
-    private $error;
     public bool $json;
     public int $http_code;
     private $output;
+    private $error;
     public function __construct($api_key = null, $base_url = null, $send_json = true)
     {
         if (isset($api_key)) {
