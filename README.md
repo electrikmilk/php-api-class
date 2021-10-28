@@ -30,7 +30,7 @@ $get_data = $service->post('endpoint',array(
 
 if($service->http_code === 200) {
   // do something...
-  echo "Response: ({$service->http_code}): {$service->output}";
+  echo "Response: ({$service->http_code}): {$service->response()}";
 } else {
   echo $service->error();
   // return curl_error() if there is one
