@@ -4,7 +4,7 @@ My custom API class, some parts borrowed from [php-curl-class](https://github.co
 ## Basic Usage
 
 ```php
-$service = new API($api_key = 'Basic {YOUR_API_KEY}',$base_url = 'https://api.example.com/v1/', $json = true | false); // send all data as JSON
+$service = new API($api_key = 'Basic {YOUR_API_KEY}',$base_url = 'https://api.example.com/v1/', $send_json = true | false);
 $service->get('endpoint');
 ```
 
