@@ -2,21 +2,21 @@
 
 class API
 {
+    private static $key;
+    private static $base;
     private $curl;
-    private $base;
-    private $key;
     private $headers = array();
     private $error;
-    public $json = true;
+    public Boolean $json = true;
     private $http_code;
     private $this->output;
     public function __construct($api_key, $base_url = null, $send_json = true)
     {
         if (isset($base_url)) {
-            $this->base = $base_url;
+            self::$base = $base_url;
         }
         if (isset($api_key)) {
-            $this->key = $api_key;
+            self::$key = $api_key;
             $this->header('Authorization', $this->key);
         }
         $this->json = $send_json;
