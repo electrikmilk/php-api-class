@@ -47,7 +47,16 @@ class API
             $this->curl = curl_init();
         }
         curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($this->curl, CURLOPT_HTTPHEADER, $this->headers);
+        $this->opt("httpheader",$this->headers);
+    }
+    public function header($key, $value)
+    {
+        array_push($this->headers, $key.': '.$value);
+    }
+    public function opt($key, $value)
+    {
+        if($key === "RETURNTRANSFER")return;
+        curl_setopt($this->curl, CURLOPT_.strtoupper($key), $value);
     }
     public function error()
     {
@@ -90,21 +99,19 @@ class API
             $this->error = curl_error($this->curl);
             return false;
         } else {
-            if ($this->http_code === 200) {
-                return $this->output;
-            } elseif (isset($this->output)) {
+          if (isset($this->output)) {
+              if ($this->http_code === 200) {
+                  return $this->output;
+              } else {
                 $this->error = $this->output;
                 return false;
-            } else {
-                return $this->http_code;
-            }
+              }
+          } else {
+              return $this->http_code;
+          }
         }
         curl_close($this->curl);
         $this->curl = null;
-    }
-    public function header($key, $value)
-    {
-        array_push($this->headers, $key.': '.$value);
     }
     public function get($url = null, $fields = array())
     {
