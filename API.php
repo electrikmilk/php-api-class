@@ -8,8 +8,8 @@ class API
     private $headers = array();
     private $error;
     public Boolean $json = true;
-    private $http_code;
-    private $this->output;
+    public $http_code;
+    public $this->output;
     public function __construct($api_key, $base_url = null, $send_json = true)
     {
         if (isset($base_url)) {
