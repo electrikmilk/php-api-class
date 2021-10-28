@@ -7,7 +7,7 @@ class API
     private $key;
     private $headers = array();
     private $error;
-    private $json = true;
+    public $json = true;
     private $http_code;
     private $this->output;
     public function __construct($api_key, $base_url = null, $send_json = true)
