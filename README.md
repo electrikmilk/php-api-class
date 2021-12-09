@@ -18,7 +18,7 @@ $service->json = true || false; // send data with json_encode() or http_build_qu
 
 ## Requests
 
-Use `get()`, `post()`, `patch()`, or `delete()` method. All of them can be given a fields array. Each of them starts a new request, meaning the previous one is discarded.
+Use `get()`, `post()`, `patch()`, `put()`, or `delete()` method. All of them can be given a fields array. Each of them starts a new request, meaning the previous one is discarded.
 
 ```php
 $data = $service->post('endpoint',array(
